@@ -28,15 +28,25 @@ function onAddItemSubmit(e) {
 
 //Adding item to dom
 function addItemToDom(item) {
-     //create the list item
-    const li =document.createElement('li')
-    li.appendChild(document.createTextNode(item))
- 
-    const button = createButton('remove-item btn-link text-red')
-    li.appendChild(button)
- // Adding the created element to display on the dom 
-    itemList.appendChild(li)
+    //create the list item
+   const li =document.createElement('li')
+   li.appendChild(document.createTextNode(item))
+
+   const button = createButton('remove-item btn-link text-red')
+   li.appendChild(button)
+// Adding the created element to display on the dom 
+   itemList.appendChild(li)
 }
+
+
+
+
+
+
+
+
+
+
 
 //Adding item to Local storage
 function addItemToStroage(item) {
