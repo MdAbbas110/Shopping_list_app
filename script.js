@@ -7,7 +7,7 @@ const filter = document.getElementById('filter')
 
 //adding functions
 
-function addItem(e) {
+function onAddItemSubmit(e) {
     e.preventDefault()
     const newItem = itemInput.value
     //validate input 
@@ -15,19 +15,44 @@ function addItem(e) {
         alert('please Add and item')
         return
     }
-    //create the list item
-    const li =document.createElement('li')
-    li.appendChild(document.createTextNode(newItem))
-    
-    const button = createButton('remove-item btn-link text-red')
-    li.appendChild(button)
+    // create item to DOM element
+    addItemToDom(newItem)
 
-    // Adding the created element to display on the dom 
-    itemList.appendChild(li)
+    //Add items to Local Storage
+    addItemToStroage(newItem)
+    
     clearUI()
     itemInput.value = ''; // to clear the input on each itteration we use name.value = '';
-    
+
 }
+
+//Adding item to dom
+function addItemToDom(item) {
+     //create the list item
+    const li =document.createElement('li')
+    li.appendChild(document.createTextNode(item))
+ 
+    const button = createButton('remove-item btn-link text-red')
+    li.appendChild(button)
+ // Adding the created element to display on the dom 
+    itemList.appendChild(li)
+}
+
+//Adding item to Local storage
+function addItemToStroage(item) {
+    let itemsFromStorage;
+    if(localStorage.getItem('items') === null) {
+        itemsFromStorage = [];
+    } else {
+        itemsFromStorage = JSON.parse(localStorage.getItem('items'))
+    }
+    itemsFromStorage.push(item)
+    //convert to json string and set to local stroage
+
+    localStorage.setItem('items', JSON.stringify(itemsFromStorage))
+}
+
+
 
 function createButton(classes) {
     const button = document.createElement('button')
@@ -93,7 +118,7 @@ function clearUI() {
 
 
 //Adding all event listners 
-itemForm.addEventListener('submit', addItem)
+itemForm.addEventListener('submit', onAddItemSubmit)
 itemList.addEventListener('click', removeItem)
 clearBtn.addEventListener('click', clearItems)
 filter.addEventListener('input', filterItems)
