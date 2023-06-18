@@ -38,16 +38,6 @@ function addItemToDom(item) {
    itemList.appendChild(li)
 }
 
-
-
-
-
-
-
-
-
-
-
 //Adding item to Local storage
 function addItemToStroage(item) {
     let itemsFromStorage;
@@ -61,7 +51,6 @@ function addItemToStroage(item) {
 
     localStorage.setItem('items', JSON.stringify(itemsFromStorage))
 }
-
 
 
 function createButton(classes) {
