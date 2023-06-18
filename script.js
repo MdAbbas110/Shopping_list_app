@@ -5,7 +5,12 @@ const clearBtn = document.getElementById('clear')
 const filter = document.getElementById('filter')
 
 
-//adding functions
+function displayItems() {
+    const itemsFromStorage = getItemsFromStroage();
+    itemsFromStorage.forEach(item => addItemToDom(item))
+    clearUI()
+}
+
 
 function onAddItemSubmit(e) {
     e.preventDefault()
@@ -38,20 +43,6 @@ function addItemToDom(item) {
    itemList.appendChild(li)
 }
 
-//Adding item to Local storage
-function addItemToStroage(item) {
-    let itemsFromStorage;
-    if(localStorage.getItem('items') === null) {
-        itemsFromStorage = [];
-    } else {
-        itemsFromStorage = JSON.parse(localStorage.getItem('items'))
-    }
-    itemsFromStorage.push(item)
-    //convert to json string and set to local stroage
-
-    localStorage.setItem('items', JSON.stringify(itemsFromStorage))
-}
-
 
 function createButton(classes) {
     const button = document.createElement('button')
@@ -66,17 +57,56 @@ function createIcon (classes) {
     icon.className = classes
     return icon;
 }
-//function to remove the item using event delegation way
 
-function removeItem(e) {
+
+//Adding item to Local storage
+function addItemToStroage(item) {
+    const itemsFromStorage = getItemsFromStroage()
+
+    //add new items to array list
+    itemsFromStorage.push(item)
+    //convert to json string and set to local stroage
+
+    localStorage.setItem('items', JSON.stringify(itemsFromStorage))
+}
+
+
+function getItemsFromStroage() {
+    let itemsFromStorage;
+
+    if (localStorage.getItem('items') === null) {
+        itemsFromStorage = []
+    } else {
+        itemsFromStorage = JSON.parse(localStorage.getItem('items'))
+    }
+    return itemsFromStorage
+}
+
+function onClickItem(e) {
     if(e.target.parentElement.classList.contains('remove-item')){
-
-        if (confirm('Are You Sure')) { //confirm() is a method on the window object 
-            e.target.parentElement.parentElement.remove();
-            clearUI()
-        }
+        removeItem(e.target.parentElement.parentElement)
     }
 }
+
+
+//function to remove the item using event delegation way
+function removeItem(e) {
+    if (confirm('Are You Sure?')) {
+        //Remove item from DOM
+        item.remove()
+
+        //remove item from Local Storage
+
+        removeItemFromStorage(item.textContent)
+        clearUI()
+    }
+}
+
+function removeItemFromStorage(item) {
+    const itemsFromStorage = getItemsFromStroage()
+    
+}
+
 
 function clearItems() {
     while(itemList.firstChild) {
@@ -113,13 +143,20 @@ function clearUI() {
     }
 }
 
+//all the events in a function coz dont want it to stay in global scope
+function init() {
+    
+    //Adding all event listners 
+    itemForm.addEventListener('submit', onAddItemSubmit)
+    itemList.addEventListener('click', onClickItem)
+    clearBtn.addEventListener('click', clearItems)
+    filter.addEventListener('input', filterItems)
+    document.addEventListener('DOMContentLoaded', displayItems)
+    clearUI();
+}
+
+init();
 
 
 
-//Adding all event listners 
-itemForm.addEventListener('submit', onAddItemSubmit)
-itemList.addEventListener('click', removeItem)
-clearBtn.addEventListener('click', clearItems)
-filter.addEventListener('input', filterItems)
 
-clearUI();
