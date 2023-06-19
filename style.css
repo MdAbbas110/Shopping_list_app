@@ -78,6 +78,10 @@ header h1 {
   cursor: pointer;
 }
 
+.edit-mode {
+  color: #ccc;
+}
+
 .btn-clear {
   margin-top: 20px;
   width: 100%;

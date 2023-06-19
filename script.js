@@ -3,7 +3,8 @@ const itemInput = document.getElementById('item-input')
 const itemList = document.getElementById('item-list')
 const clearBtn = document.getElementById('clear')
 const filter = document.getElementById('filter')
-
+const formBtn = itemForm.querySelector('button')
+let isEditMode = false
 
 function displayItems() {
     const itemsFromStorage = getItemsFromStroage();
@@ -82,15 +83,31 @@ function getItemsFromStroage() {
     return itemsFromStorage
 }
 
+//this is baiscally a handler on what evenr we are clicking
 function onClickItem(e) {
     if(e.target.parentElement.classList.contains('remove-item')){
         removeItem(e.target.parentElement.parentElement)
+    } else {
+        setItemToEdit(e.target)
     }
 }
 
+function setItemToEdit(item) {
+    isEditMode = true;
+
+    itemList.querySelectorAll('li')
+    .forEach((i) => i.classList.remove('edit-mode'))
+
+    item.classList.add('edit-mode')
+    formBtn.innerHTML = '<i class="fa-solid fa-pen"></i> Update Item'
+    formBtn.style.backgroundColor = '#228B22'
+
+    //adding the item back to input form to update
+    itemInput.value = item.textContent
+}
 
 //function to remove the item using event delegation way
-function removeItem(e) {
+function removeItem(item) {
     if (confirm('Are You Sure?')) {
         //Remove item from DOM
         item.remove()
@@ -103,8 +120,12 @@ function removeItem(e) {
 }
 
 function removeItemFromStorage(item) {
-    const itemsFromStorage = getItemsFromStroage()
+    let itemsFromStorage = getItemsFromStroage()
     
+    //Filter out the item to be romoved
+    itemsFromStorage = itemsFromStorage.filter((i) => i !== item )
+    
+    localStorage.setItem('items', JSON.stringify(itemsFromStorage))
 }
 
 
@@ -112,6 +133,9 @@ function clearItems() {
     while(itemList.firstChild) {
         itemList.removeChild(itemList.firstChild)
     }
+    //clearig the local storage onclick
+    localStorage.removeItem('items')
+
     clearUI();
 }
 
