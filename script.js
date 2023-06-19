@@ -21,6 +21,23 @@ function onAddItemSubmit(e) {
         alert('please Add and item')
         return
     }
+
+    //chec for edit mode
+    if(isEditMode) {
+        const itemToEdit = itemList.querySelector('.edit-mode')
+
+        removeItemFromStorage(itemToEdit.textContent)
+        itemToEdit.classList.remove('edit-mode')
+
+        itemToEdit.remove()
+        isEditMode = false
+    } else {
+        if (checkIfItemExists(newItem)) {
+            alert('That item already exists')
+            return
+        }
+    }
+
     // create item to DOM element
     addItemToDom(newItem)
 
@@ -92,6 +109,12 @@ function onClickItem(e) {
     }
 }
 
+function checkIfItemExists(item) {
+    const itemsFromStorage = getItemsFromStroage()
+
+    return itemsFromStorage.includes(item);
+}
+
 function setItemToEdit(item) {
     isEditMode = true;
 
@@ -157,6 +180,8 @@ function filterItems(e) {
 
 //Function that will remove the clear all and filter when there is no li
 function clearUI() {
+    itemInput.value = '';
+
     const items = itemList.querySelectorAll('li')
     if (items.length === 0) {
         clearBtn.style.display = 'none'
@@ -165,6 +190,10 @@ function clearUI() {
         clearBtn.style.display = 'block'
         filter.style.display = 'block'
     }
+    formBtn.innerHTML = '<i class="fa-solid fa-plus"></i> Add Item'
+    formBtn.style.backgroundColor = '#333'
+
+    isEditMode = false
 }
 
 //all the events in a function coz dont want it to stay in global scope
