@@ -34,7 +34,7 @@ function onAddItemSubmit(e) {
         isEditMode = false
     } else {
         if (checkIfItemExists(newItem)) {
-            alert('That item already exists')
+            swal(`Can't Add`,`This item is alredy Exists`)
             return
         }
     }
@@ -131,7 +131,7 @@ function setItemToEdit(item) {
 
 //function to remove the item using event delegation way
 function removeItem(item) {
-    if (confirm('Are You Sure?')) {
+    if (swal('Removing Item','Are You Sure?')) {
         //Remove item from DOM
         item.remove()
 
