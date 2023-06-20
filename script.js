@@ -9,6 +9,7 @@ let isEditMode = false
 function displayItems() {
     const itemsFromStorage = getItemsFromStroage();
     itemsFromStorage.forEach(item => addItemToDom(item))
+
     clearUI()
 }
 
@@ -52,7 +53,7 @@ function onAddItemSubmit(e) {
 //Adding item to dom
 function addItemToDom(item) {
     //create the list item
-   const li =document.createElement('li')
+   const li = document.createElement('li')
    li.appendChild(document.createTextNode(item))
 
    const button = createButton('remove-item btn-link text-red')
@@ -87,7 +88,6 @@ function addItemToStroage(item) {
 
     localStorage.setItem('items', JSON.stringify(itemsFromStorage))
 }
-
 
 function getItemsFromStroage() {
     let itemsFromStorage;
