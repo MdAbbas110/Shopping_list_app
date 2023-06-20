@@ -131,7 +131,7 @@ function setItemToEdit(item) {
 
 //function to remove the item using event delegation way
 function removeItem(item) {
-    if (swal('Removing Item','Are You Sure?','success')) {
+    if (swal('Removing The Item','success')) {
         //Remove item from DOM
         item.remove()
 
