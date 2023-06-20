@@ -19,7 +19,7 @@ function onAddItemSubmit(e) {
     const newItem = itemInput.value
     //validate input 
     if(newItem === '') {
-        alert('please Add and item')
+        swal('Hi there','Please Add and item')
         return
     }
 
@@ -131,7 +131,7 @@ function setItemToEdit(item) {
 
 //function to remove the item using event delegation way
 function removeItem(item) {
-    if (swal('Removing Item','Are You Sure?')) {
+    if (swal('Removing Item','Are You Sure?','success')) {
         //Remove item from DOM
         item.remove()
 
